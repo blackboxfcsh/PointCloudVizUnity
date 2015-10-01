@@ -54,14 +54,15 @@ public class XmlReaderWriter {
 		XmlNodeList xmlTakeList = xml.SelectNodes ("/annotation_document/session/take");
 		for (int j = 0; j < xmlTakeList.Count; j++) {
 
+			XmlNodeList xmlAnnotationSetList = xmlTakeList.Item(j).SelectNodes("annotations/annotation_set");
+			if(xmlAnnotationSetList.Count == 0)
+				continue;
 
 			take =  CreateTake(xmlTakeList.Item(j));
 			if(take == null) {
 				Debug.Log("ERROR creating class Take");
 				return;
 			}
-
-			XmlNodeList xmlAnnotationSetList = xmlTakeList.Item(j).SelectNodes("annotations/annotation_set");
 
 			// Load Annotations
 			//XmlNodeList xmlAnnotationSetList = xml.SelectNodes ("/annotation_document/session/take/annotations/annotation_set");
@@ -79,6 +80,9 @@ public class XmlReaderWriter {
 			
 							case "text":
 									AnnotationText annotation = CreateAnnotationText (xmlAnnotation);
+									if(annotation == null)
+										continue;
+									
 									annotation.Type = "text";
 									textAnnotationList.Add (annotation);
 									Debug.Log ("TEXT annotation");
@@ -152,6 +156,9 @@ public class XmlReaderWriter {
 
 			case "value":
 				//Debug.Log ("value: " + xmlElements.InnerText);
+				if(xmlElements.InnerText.Length == 0)
+					return null;
+
 				annotationText.TextValue = xmlElements.InnerText;
 				break;
 	

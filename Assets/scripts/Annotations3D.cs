@@ -61,9 +61,11 @@ public class Annotations3D : MonoBehaviour {
 		// write text annotation
 		Annotation value;
 		textAnnotationList = take.TextAnnotationList;
+		int idTextAnnoations = 0; // use this as id because the id on the xml might not be in sequence
 		foreach (AnnotationText annotationText in textAnnotationList) {
 			//if(!annotations.TryGetValue(annotationText.Begin, out value))
-				annotations.Add(annotationText.ID, annotationText);
+			annotations.Add(idTextAnnoations, annotationText);
+			idTextAnnoations++;
 			//else {
 			//	int beginning = annotationText.Begin + 5;
 			//	annotations.Add(beginning, annotationText);
