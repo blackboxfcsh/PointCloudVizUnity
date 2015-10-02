@@ -19,6 +19,8 @@ public class ButtonManager : MonoBehaviour {
 	int numberOfAnnotations = 0;
 	GameObject buttonType;
 	GameObject buttonDuration;
+	GameObject buttonPause;
+	bool isPlaying = false;
 
 	void Start() {
 	
@@ -26,6 +28,7 @@ public class ButtonManager : MonoBehaviour {
 		buttonNumber = GameObject.Find("/Canvas/PanelAnnotations/PanelNumber/ButtonNumber");
 		buttonType = GameObject.Find("/Canvas/PanelAnnotations/PanelType/ButtonType");
 		buttonDuration = GameObject.Find("/Canvas/PanelAnnotations/PanelDuration/ButtonDuration");
+		buttonPause = GameObject.Find("/Canvas/PanelTimelineControl/ButtonPanelFrames/ButtonPause");
 
 		scrollBar = GameObject.FindObjectOfType<Scrollbar> ();
 		annotations3D = (Annotations3D)Camera.main.GetComponent<Annotations3D> ();
@@ -106,10 +109,16 @@ public class ButtonManager : MonoBehaviour {
 
 	public void OnClickPause(){
 		foreach(PointCloud pc in clouds){
-			pc.playing = !pc.playing;
+		
+			if(pc.playing) {
+				buttonPause.GetComponentInChildren<Text> ().text = "||";
+				pc.playing = false;
+			} 
+			else {
+				buttonPause.GetComponentInChildren<Text> ().text = "\u25B6";
+				pc.playing = true;
+			}
 		}
 	}
-
-
 
 }
