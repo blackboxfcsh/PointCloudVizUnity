@@ -238,7 +238,7 @@ public class Annotations3D : MonoBehaviour {
 		TextMeshPro textMeshPro = textObject.AddComponent<TextMeshPro> ();
 		textMeshPro.gameObject.AddComponent <CameraFacingBillboard>();
 
-		textMeshPro.fontSize = 2;
+		textMeshPro.fontSize = 1;
 		textMeshPro.text = annotationText.TextValue;
 		textMeshPro.color = new Color(annotationText.FormattingText.Color.r, annotationText.FormattingText.Color.g,
 		                              annotationText.FormattingText.Color.b);
