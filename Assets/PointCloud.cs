@@ -96,9 +96,8 @@ public class PointCloud : MonoBehaviour {
 				mf.sharedMesh.Clear();
 			}
 		}
-
-	
 	}
+
 	private List<Mesh> readFile(string f)
 	{
 		FileStream fs = new FileStream(f, FileMode.Open);

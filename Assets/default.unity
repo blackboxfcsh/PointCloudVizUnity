@@ -1468,14 +1468,14 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1027046562
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1027046561}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53123603d61b82f4e81b8388a167e835, type: 3}
   m_Name: 
@@ -2666,20 +2666,21 @@ GameObject:
   m_Component:
   - 4: {fileID: 1742746701}
   - 114: {fileID: 1742746700}
+  - 114: {fileID: 1742746702}
   m_Layer: 0
   m_Name: Calibrate 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1742746700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1742746699}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53123603d61b82f4e81b8388a167e835, type: 3}
   m_Name: 
@@ -2701,6 +2702,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &1742746702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1742746699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshDirPath: C:\Users\Joanna\Desktop\Data\JoaoFiadeiro\SecondSession\SecondTestPointClouds\girafa\Output2\sample
+  cameraFilePath: C:\Users\Joanna\Documents\GitHub\PointCloudVizUnity\Assets\Resources\girafa.txt
+  firstIndex: 100
+  endIndex: 134
+  currentCloud: 0
+  playing: 0
 --- !u!1 &1754867621
 GameObject:
   m_ObjectHideFlags: 0
@@ -3315,7 +3333,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1904072578}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef7f48b404865444f8bed6e6654cdd5c, type: 3}
   m_Name: 
@@ -3331,7 +3349,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1904072578}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 213fa06b17bb64b14b7d3dc12b05cad3, type: 3}
   m_Name: 
@@ -3513,7 +3531,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
