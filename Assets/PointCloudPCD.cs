@@ -14,9 +14,17 @@ public class PointCloudPCD : MonoBehaviour {
     public bool playing;
     Dictionary<int, List<Mesh>> meshes;
 
+    List<Vector3> points = new List<Vector3>();
+    private ParticleSystem.Particle[] cloud;
+    public float max = 1.0f;
+    public Color backgroundRGBA = Color.white / 4;
+    public float particleSize = 0.004f;
+    public bool updatePoints = false;
+
 	// Use this for initialization
 	void Start () {
 
+        // load point cloud cluster data
         string[] clusterFilesPath = {""};
         for (int idx = firstIndex; idx <= endIndex; idx++) {
             Debug.Log("current idx = " + idx);
@@ -24,10 +32,26 @@ public class PointCloudPCD : MonoBehaviour {
             currentCloud = idx;
         }
 
+        // load point cloud cluster data in Mesh objects
         foreach (string f in clusterFilesPath) {
             List<Mesh> thecloud = readFileNoColor(f);
             meshes.Add(currentCloud, thecloud);
         }
+
+        // create game objects
+     /*   Material mat = Resources.Load("cloudmat") as Material;
+        List<Mesh> first = meshes[firstIndex];
+        for (int i = 0; i < maxclouds; i++)
+        {
+            GameObject a = new GameObject();
+            a.name = "OutputCloud" + firstIndex;
+            a.AddComponent<MeshFilter>();
+            MeshRenderer mr = a.AddComponent<MeshRenderer>();
+            mr.material = mat;
+            a.transform.parent = this.gameObject.transform;
+        }
+        setCloudToRender(first, true);
+        setInitialPositionIni();*/
 	}
 
     string[] getClusterFilesPath(int index) {
@@ -44,7 +68,7 @@ public class PointCloudPCD : MonoBehaviour {
         FileStream fs = new FileStream(f, FileMode.Open);
         StreamReader sr = new StreamReader(fs);
 
-        List<Vector3> points = new List<Vector3>();
+       
         List<int> ind = new List<int>();
         List<Mesh> clouds = new List<Mesh>();
 
@@ -98,6 +122,31 @@ public class PointCloudPCD : MonoBehaviour {
 
     }
 
+
+    // Set particle positions according to point coordinates using two arguments. Color points according to inputted Color[] array.
+    public void SetPoints()
+    {
+        cloud = new ParticleSystem.Particle[points.Count];
+
+        // Find the max value of any coordinate and use it for normalizing the automatic coloring of the points.
+       // max = Max(p);
+
+        for (int i = 0; i < points.Count; ++i)
+        {
+            // Set position of particles to match those of the 3-D points.
+            cloud[i].position = points[i];
+            // Color points according to Color[] array.
+            cloud[i].color = Color.white;
+            // Static size.
+            cloud[i].size = particleSize;
+            //print("{ x: " + cloud[i].position.x + " // y: " + cloud[i].position.y + " // z: " + cloud[i].position.z + " }");
+        }
+
+        // Every time the points are set, redraw them.
+        updatePoints = true;
+    }
+
+
     private void setCloudToRender(List<Mesh> meshes, bool show)
     {
         Renderer[] r = GetComponentsInChildren<Renderer>();
@@ -123,6 +172,19 @@ public class PointCloudPCD : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-	
+
+        if (updatePoints)
+        {
+            // RETRIEVE UPDATED POINTS HERE IF YOU WANT TO
+
+            // Fix all negative points and force them into the unit cube.
+            //normalizePoints();
+            // Create new particles and set at new positions.
+            SetPoints();
+            // Redraw the points.
+            
+            // Don't redraw the points until SetPoints() is called again.
+            updatePoints = false;
+        }
 	}
 }

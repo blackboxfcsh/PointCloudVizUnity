@@ -29,6 +29,7 @@ public class PointCloud : MonoBehaviour {
 			maxclouds = maxclouds < thecloud.Count?thecloud.Count:maxclouds;
 			meshes.Add(id,thecloud);
 		}
+
 		Material mat = Resources.Load ("cloudmat") as Material;
 		List<Mesh> first = meshes [0];
 		for (int i = 0; i < maxclouds; i++) {
