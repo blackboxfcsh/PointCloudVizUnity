@@ -2680,13 +2680,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1742746699}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53123603d61b82f4e81b8388a167e835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshDirPath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/SecondSession/girafa/Output2
-  cameraFilePath: /Users/mini/Work/BlackBox/github/PointCloudVizUnity/CalibrationFiles/SecondDataSet/girafa.ini
+  meshDirPath: /Users/mini/Work/BlackBox/Data/Joao Fiadeiro/Second Session/SecondTestPointClouds/girafa/Output2/
+  cameraFilePath: /Users/mini/Work/BlackBox/github/PointCloudVizUnity/Assets/Resources/girafa.txt
   skipFirstX: 0
   currentCloud: 0
   playing: 0
@@ -2708,21 +2708,16 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1742746699}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshDirPath: D:\Data\JoaoFiadeiro\SecondSession\SecondTestPointClouds\girafa\Output2\sample
-  cameraFilePath: C:\Users\claudia\Work\Code\github\PointCloudVizUnity\Assets\Resources\girafa.txt
-  firstIndex: 100
-  endIndex: 100
+  meshDirPath: /Users/mini/Work/BlackBox/Data/Joao Fiadeiro/Second Session/SecondTestPointClouds/girafa/Output2/sample
+  cameraFilePath: /Users/mini/Work/BlackBox/github/PointCloudVizUnity/Assets/Resources/girafa.txt
+  maxNumberOfClusters: 10
   currentCloud: 0
   playing: 0
-  max: 1
-  backgroundRGBA: {r: .25, g: .25, b: .25, a: .25}
-  particleSize: .00400000019
-  updatePoints: 0
 --- !u!1 &1754867621
 GameObject:
   m_ObjectHideFlags: 0
@@ -3535,9 +3530,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}

@@ -7,56 +7,59 @@ public class PointCloudPCD : MonoBehaviour {
 
     public string meshDirPath;
     public string cameraFilePath;
-    public int firstIndex = 0;
-    public int endIndex = 0;
+    int firstIndex = 0;
+   // public int endIndex = 0;
+	public int maxNumberOfClusters = 0;
     int maxclouds = 0;
     public int currentCloud = 0;
     public bool playing;
-    Dictionary<int, List<Mesh>> meshes;
+	Dictionary<int, List<Mesh>> meshes;
 
-    List<Vector3> points = new List<Vector3>();
-    private ParticleSystem.Particle[] cloud;
-    public float max = 1.0f;
-    public Color backgroundRGBA = Color.white / 4;
-    public float particleSize = 0.004f;
-    public bool updatePoints = false;
 
 	// Use this for initialization
 	void Start () {
 
+		meshes = new Dictionary<int, List<Mesh>> ();
+
         // load point cloud cluster data
         string[] clusterFilesPath = {""};
-        for (int idx = firstIndex; idx <= endIndex; idx++) {
+
+		for (int idx = 0; idx <= maxNumberOfClusters; idx++) {
             Debug.Log("current idx = " + idx);
             clusterFilesPath = getClusterFilesPath(idx);
-            currentCloud = idx;
-        }
-
-        // load point cloud cluster data in Mesh objects
-        foreach (string f in clusterFilesPath) {
-            List<Mesh> thecloud = readFileNoColor(f);
-            meshes.Add(currentCloud, thecloud);
+			if(clusterFilesPath.Length == 0)
+				break;
+			else {
+				// load point cloud cluster data in Mesh objects
+				List<Mesh> clusterMeshes = new List<Mesh>();
+				foreach (string f in clusterFilesPath) {
+					List<Mesh> thecloud = readFileNoColor(f);
+					clusterMeshes.AddRange(thecloud);
+				}
+				Debug.Log("idx = " + idx);
+				meshes.Add(idx, clusterMeshes);
+				Debug.Log("meshes size = " + meshes[idx].Count);
+			}
         }
 
         // create game objects
-     /*   Material mat = Resources.Load("cloudmat") as Material;
-        List<Mesh> first = meshes[firstIndex];
-        for (int i = 0; i < maxclouds; i++)
-        {
-            GameObject a = new GameObject();
-            a.name = "OutputCloud" + firstIndex;
-            a.AddComponent<MeshFilter>();
-            MeshRenderer mr = a.AddComponent<MeshRenderer>();
-            mr.material = mat;
-            a.transform.parent = this.gameObject.transform;
-        }
-        setCloudToRender(first, true);
-        setInitialPositionIni();*/
+		Material mat = Resources.Load("cloudmat") as Material;
+		List<Mesh> first = meshes[firstIndex];
+		for(int clusterID = 0; clusterID < meshes.Count; clusterID++){
+			GameObject a = new GameObject();
+			a.name = "Cluster" + clusterID;
+			a.AddComponent<MeshFilter>();
+			MeshRenderer mr = a.AddComponent<MeshRenderer>();
+			mr.material = mat;
+			a.transform.parent = this.gameObject.transform;
+		}
+		setCloudToRender(first, true);
+		setInitialPositionIni();
 	}
 
     string[] getClusterFilesPath(int index) {
 
-        string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "outputCloud" + index + "_*.pcd");
+        string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "*cluster_" + index + ".pcd");
 
         foreach (string p in clusterFilesPath)
             Debug.Log("cluster file path = " + p);
@@ -68,12 +71,13 @@ public class PointCloudPCD : MonoBehaviour {
         FileStream fs = new FileStream(f, FileMode.Open);
         StreamReader sr = new StreamReader(fs);
 
-       
-        List<int> ind = new List<int>();
+		List<Vector3> points = new List<Vector3>();
+       	List<int> ind = new List<int>();
         List<Mesh> clouds = new List<Mesh>();
 
         string line = "";
         Mesh m = new Mesh();
+		int i = 0; //current number of points in the mesh
         while (!sr.EndOfStream)
         {
             line = sr.ReadLine();
@@ -90,10 +94,20 @@ public class PointCloudPCD : MonoBehaviour {
                 float z = float.Parse(lin[2]);
 
                 points.Add(new Vector3(x, y, z));
-
-            }
+				ind.Add(i);
+				i++;
+			}
+			if(points.Count == 65000) {
+				
+				m.vertices = points.ToArray();
+				m.SetIndices(ind.ToArray(), MeshTopology.Points, 0);
+				clouds.Add(m);
+				m = new Mesh();
+				i = 0;
+				points.Clear();
+				ind.Clear();
+			}
         }
-
         m.vertices = points.ToArray();
         m.SetIndices(ind.ToArray(), MeshTopology.Points, 0);
         clouds.Add(m);
@@ -122,31 +136,6 @@ public class PointCloudPCD : MonoBehaviour {
 
     }
 
-
-    // Set particle positions according to point coordinates using two arguments. Color points according to inputted Color[] array.
-    public void SetPoints()
-    {
-        cloud = new ParticleSystem.Particle[points.Count];
-
-        // Find the max value of any coordinate and use it for normalizing the automatic coloring of the points.
-       // max = Max(p);
-
-        for (int i = 0; i < points.Count; ++i)
-        {
-            // Set position of particles to match those of the 3-D points.
-            cloud[i].position = points[i];
-            // Color points according to Color[] array.
-            cloud[i].color = Color.white;
-            // Static size.
-            cloud[i].size = particleSize;
-            //print("{ x: " + cloud[i].position.x + " // y: " + cloud[i].position.y + " // z: " + cloud[i].position.z + " }");
-        }
-
-        // Every time the points are set, redraw them.
-        updatePoints = true;
-    }
-
-
     private void setCloudToRender(List<Mesh> meshes, bool show)
     {
         Renderer[] r = GetComponentsInChildren<Renderer>();
@@ -173,18 +162,5 @@ public class PointCloudPCD : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-        if (updatePoints)
-        {
-            // RETRIEVE UPDATED POINTS HERE IF YOU WANT TO
-
-            // Fix all negative points and force them into the unit cube.
-            //normalizePoints();
-            // Create new particles and set at new positions.
-            SetPoints();
-            // Redraw the points.
-            
-            // Don't redraw the points until SetPoints() is called again.
-            updatePoints = false;
-        }
 	}
 }
