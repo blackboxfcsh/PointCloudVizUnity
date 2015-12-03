@@ -52,6 +52,16 @@ public class PointCloudPCD : MonoBehaviour {
 			MeshRenderer mr = a.AddComponent<MeshRenderer>();
 			mr.material = mat;
 			a.transform.parent = this.gameObject.transform;
+
+			List<Mesh> clusterTemp = meshes[clusterID];
+			foreach(Mesh m in clusterTemp){
+				Vector3[] vertices = m.vertices;
+				Color[] colors = new Color[vertices.Length];
+				for(int v = 0; v < vertices.Length; v++)
+					colors[0] = new Color(clusterID * 10, 255, clusterID * 20);
+
+				m.colors = colors;
+			}
 		}
 		setCloudToRender(first, true);
 		setInitialPositionIni();

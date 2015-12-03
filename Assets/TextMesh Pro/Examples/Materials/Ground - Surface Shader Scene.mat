@@ -88,12 +88,12 @@ Material:
         second: 255
       data:
         first:
-          name: _DiffusePower
-        second: 1
-      data:
-        first:
           name: _ColorMask
         second: 15
+      data:
+        first:
+          name: _DiffusePower
+        second: 1
       data:
         first:
           name: _Border
@@ -118,7 +118,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .941176474, g: .15916954, b: .15916954, a: 1}
       data:
         first:
           name: _SpecColor

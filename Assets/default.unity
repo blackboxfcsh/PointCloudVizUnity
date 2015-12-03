@@ -2680,12 +2680,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1742746699}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53123603d61b82f4e81b8388a167e835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshDirPath: /Users/mini/Work/BlackBox/Data/Joao Fiadeiro/Second Session/SecondTestPointClouds/girafa/Output2/
+  meshDirPath: /Users/mini/Work/BlackBox/Data/Joao Fiadeiro/Second Session/SecondTestPointClouds/girafa/Output2
   cameraFilePath: /Users/mini/Work/BlackBox/github/PointCloudVizUnity/Assets/Resources/girafa.txt
   skipFirstX: 0
   currentCloud: 0
@@ -2708,7 +2708,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1742746699}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
   m_Name: 
