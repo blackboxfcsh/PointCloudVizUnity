@@ -7,45 +7,53 @@ public class PointCloudPCD : MonoBehaviour {
 
     public string meshDirPath;
     public string cameraFilePath;
-    int firstIndex = 0;
-   // public int endIndex = 0;
-	public int maxNumberOfClusters = 0;
+    public int skipFirstX = 0;
+    public int totalNumberOfPointClouds;
+	int maxNumberOfClusters = 0;
     int maxclouds = 0;
     public int currentCloud = 0;
     public bool playing;
-	Dictionary<int, List<Mesh>> meshes;
-
+	//Dictionary<int, List<Mesh>> meshes;
+    Dictionary<int, Frame> framesByIndex;
 
 	// Use this for initialization
 	void Start () {
 
-		meshes = new Dictionary<int, List<Mesh>> ();
+       // Dictionary<int, List<Mesh>> meshes = new Dictionary<int, List<Mesh>>();
 
-        // load point cloud cluster data
+        framesByIndex = new Dictionary<int, Frame>();
+       
+            // load point cloud cluster data
         string[] clusterFilesPath = {""};
 
-		for (int idx = 0; idx <= maxNumberOfClusters; idx++) {
-            Debug.Log("current idx = " + idx);
+        for (int idx = skipFirstX; idx <= totalNumberOfPointClouds; idx++)
+        {
             clusterFilesPath = getClusterFilesPath(idx);
 			if(clusterFilesPath.Length == 0)
-				break;
+				continue;
 			else {
 				// load point cloud cluster data in Mesh objects
-				List<Mesh> clusterMeshes = new List<Mesh>();
+                Frame frame = new Frame();
+                int i = idx;
 				foreach (string f in clusterFilesPath) {
+                    Debug.Log("id = " + i + " - filename = " + f);
 					List<Mesh> thecloud = readFileNoColor(f);
-					clusterMeshes.AddRange(thecloud);
+                    frame.AddCluster(i, thecloud);
+                    i++;
 				}
 				Debug.Log("idx = " + idx);
-				meshes.Add(idx, clusterMeshes);
-				Debug.Log("meshes size = " + meshes[idx].Count);
+				framesByIndex.Add(idx, frame);
+
+                int numberOfClusters = framesByIndex[idx].GetClusterList().Count;
+                if(maxNumberOfClusters < numberOfClusters)
+                    maxNumberOfClusters = numberOfClusters;
+                Debug.Log("frames number = " + idx + " number of clusters = " + numberOfClusters);
 			}
         }
 
         // create game objects
-		Material mat = Resources.Load("cloudmat") as Material;
-		List<Mesh> first = meshes[firstIndex];
-		for(int clusterID = 0; clusterID < meshes.Count; clusterID++){
+    	Material mat = Resources.Load("cloudmat") as Material;
+		for(int clusterID = 0; clusterID < maxNumberOfClusters; clusterID++){
 			GameObject a = new GameObject();
 			a.name = "Cluster" + clusterID;
 			a.AddComponent<MeshFilter>();
@@ -53,7 +61,7 @@ public class PointCloudPCD : MonoBehaviour {
 			mr.material = mat;
 			a.transform.parent = this.gameObject.transform;
 
-			List<Mesh> clusterTemp = meshes[clusterID];
+			/*List<Mesh> clusterTemp = meshes[clusterID];
 			foreach(Mesh m in clusterTemp){
 				Vector3[] vertices = m.vertices;
 				Color[] colors = new Color[vertices.Length];
@@ -61,15 +69,16 @@ public class PointCloudPCD : MonoBehaviour {
 					colors[0] = new Color(clusterID * 10, 255, clusterID * 20);
 
 				m.colors = colors;
-			}
+			}*/
 		}
-		setCloudToRender(first, true);
+        setCloudToRender(framesByIndex[0].GetClusterList(), true);
 		setInitialPositionIni();
 	}
 
+
     string[] getClusterFilesPath(int index) {
 
-        string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "*cluster_" + index + ".pcd");
+        string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "outputCloud" + index + "_*.pcd");
 
         foreach (string p in clusterFilesPath)
             Debug.Log("cluster file path = " + p);
@@ -171,6 +180,61 @@ public class PointCloudPCD : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+        Quaternion orient = transform.rotation;
+        Quaternion cameraRot = Camera.main.transform.rotation;
+        float ydiff = Mathf.Abs(orient.eulerAngles.y - cameraRot.eulerAngles.y);
+        bool show = true;
+        if (ydiff > 90 || cameraRot.eulerAngles.x < -30 || cameraRot.eulerAngles.z < -30)
+        {
+            //	show = false;
+        }
+
+        if (currentCloud == framesByIndex.Count)
+            currentCloud = 0;
+        setCloudToRender(framesByIndex[currentCloud].GetClusterList(), show);
+        if (playing)
+            currentCloud++;
 
 	}
+}
+
+public class Frame {
+
+    Dictionary<int, List<Mesh>> clustersByIndex;
+    List<Mesh> clusters;
+
+    public List<Mesh> GetClusterListByIndex(int index) {
+        if (clustersByIndex.ContainsKey(index))
+            return clustersByIndex[index];
+        else
+            return null; // the key does not exist
+    }
+
+    public List<Mesh> GetClusterList() {
+        if (clusters.Count == 0)
+        {
+            foreach (int index in clustersByIndex.Keys)
+                clusters.AddRange(clustersByIndex[index]);
+        }
+        return clusters;
+    }
+
+    // constructor
+    public Frame() {
+        clustersByIndex = new Dictionary<int, List<Mesh>>();
+        clusters = new List<Mesh>();
+    }
+
+    public void AddCluster(int index, List<Mesh> clusterMesh) {
+        if (clustersByIndex.ContainsKey(index))
+            clustersByIndex[index].AddRange(clusterMesh);
+        else {
+            List<Mesh> clusterList = new List<Mesh>();
+            clusterList.AddRange(clusterMesh);
+            clustersByIndex.Add(index, clusterList);
+        }
+    }
+
+    // add anotation to cluster
+
 }

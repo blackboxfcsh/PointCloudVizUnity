@@ -14,7 +14,7 @@ public class ButtonManager : MonoBehaviour {
 	//bool playing = false;
 	Scrollbar scrollBar;
 	float scrollbarStep = 0.0f;
-	PointCloud[] clouds = null;
+	PointCloudPCD[] clouds = null;
 	float numberOfFrames = 0.5f;
 	int numberOfAnnotations = 0;
 	GameObject buttonType;
@@ -36,7 +36,7 @@ public class ButtonManager : MonoBehaviour {
 		scrollBar = GameObject.FindObjectOfType<Scrollbar> ();
 		annotations3D = (Annotations3D)Camera.main.GetComponent<Annotations3D> ();
 
-		clouds = GameObject.FindObjectsOfType<PointCloud> ();
+		clouds = GameObject.FindObjectsOfType<PointCloudPCD> ();
 
 		numberOfAnnotations = annotations3D.Annotations.Count;
 		scrollbarStep = ((float) 1) / ((float) numberOfAnnotations);
@@ -77,7 +77,8 @@ public class ButtonManager : MonoBehaviour {
 
 
 	public void OnClickNextFrame(){
-		foreach(PointCloud pc in clouds){
+        foreach (PointCloudPCD pc in clouds)
+        {
 			pc.currentCloud++;
 		}
 
@@ -86,7 +87,8 @@ public class ButtonManager : MonoBehaviour {
 	}
 	
 	public void OnClickPreviousFrame(){
-		foreach(PointCloud pc in clouds){
+        foreach (PointCloudPCD pc in clouds)
+        {
 			pc.currentCloud--;
 		}
 
@@ -94,7 +96,8 @@ public class ButtonManager : MonoBehaviour {
 	}
 
 	public void OnClickNextJumpFrames(){
-		foreach(PointCloud pc in clouds){
+        foreach (PointCloudPCD pc in clouds)
+        {
 			pc.currentCloud+=10;
 		}
 
@@ -102,7 +105,8 @@ public class ButtonManager : MonoBehaviour {
 	}
 
 	public void OnClickPreviousJumpFrames(){
-		foreach(PointCloud pc in clouds){
+        foreach (PointCloudPCD pc in clouds)
+        {
 			pc.currentCloud-=10;
 		}
 
@@ -111,7 +115,8 @@ public class ButtonManager : MonoBehaviour {
 	}
 
 	public void OnClickPause(){
-		foreach(PointCloud pc in clouds){
+        foreach (PointCloudPCD pc in clouds)
+        {
 		
 			if(pc.playing) {
 				buttonPause.GetComponentInChildren<Text> ().text = "\u25B6";
