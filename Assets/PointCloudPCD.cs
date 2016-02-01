@@ -19,9 +19,7 @@ public class PointCloudPCD : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-       // Dictionary<int, List<Mesh>> meshes = new Dictionary<int, List<Mesh>>();
-
-        framesByIndex = new Dictionary<int, Frame>();
+    	framesByIndex = new Dictionary<int, Frame>();
        
             // load point cloud cluster data
         string[] clusterFilesPath = {""};
@@ -55,11 +53,13 @@ public class PointCloudPCD : MonoBehaviour {
     	Material mat = Resources.Load("cloudmat") as Material;
 		for(int clusterID = 0; clusterID < maxNumberOfClusters; clusterID++){
 			GameObject a = new GameObject();
-			a.name = "Cluster" + clusterID;
+			a.name = "Cluster";
+			a.tag = "Cluster";
 			a.AddComponent<MeshFilter>();
 			MeshRenderer mr = a.AddComponent<MeshRenderer>();
 			mr.material = mat;
 			a.transform.parent = this.gameObject.transform;
+			a.AddComponent<BoxCollider>();
 
 			/*List<Mesh> clusterTemp = meshes[clusterID];
 			foreach(Mesh m in clusterTemp){
@@ -72,13 +72,13 @@ public class PointCloudPCD : MonoBehaviour {
 			}*/
 		}
         setCloudToRender(framesByIndex[0].GetClusterList(), true);
-		setInitialPositionIni();
+		//setInitialPositionIni();
 	}
 
 
-    string[] getClusterFilesPath(int index) {
-
-        string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "outputCloud" + index + "_*.pcd");
+    string[] getClusterFilesPath(int index) 
+	{
+        string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "OutputCloud" + index + "_*.pcd");
 
         foreach (string p in clusterFilesPath)
             Debug.Log("cluster file path = " + p);
@@ -134,26 +134,7 @@ public class PointCloudPCD : MonoBehaviour {
         return clouds;
     }
 
-    private void setInitialPositionIni()
-    {
-        FileStream fs = new FileStream(cameraFilePath, FileMode.Open);
-        StreamReader sr = new StreamReader(fs);
-        float[] values = new float[6];
-        for (int i = 0; i < 6; i++)
-        {
-            char[] sep = { '=' };
-            string pos = sr.ReadLine();
-            string[] p = pos.Split(sep);
-            values[i] = float.Parse(p[1]);
-
-        }
-        Vector3 position = new Vector3(values[0], values[1], values[2]);
-        Vector3 rotation = new Vector3(values[3], values[4], values[5]);
-        this.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        this.gameObject.transform.Translate(position);
-        this.gameObject.transform.Rotate(rotation);
-
-    }
+   
 
     private void setCloudToRender(List<Mesh> meshes, bool show)
     {
@@ -161,6 +142,7 @@ public class PointCloudPCD : MonoBehaviour {
         foreach (Renderer r1 in r) {
             if (show) {
                 r1.enabled = true;
+
             }
             else {
                 r1.enabled = false;
@@ -173,9 +155,18 @@ public class PointCloudPCD : MonoBehaviour {
                 mf.sharedMesh = meshes[i++];
             }
             else {
-                mf.sharedMesh.Clear();
+				if(mf.sharedMesh != null)
+                	mf.sharedMesh.Clear();
             }
         }
+		GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Cluster");
+		foreach (GameObject go in gameObjects) {
+			Vector3 pos = go.transform.position;
+			BoxCollider boxCollider = go.GetComponent<BoxCollider>();
+			//BoxCollider[] boxCollider = go.GetComponentsInChildren<BoxCollider>();
+			if(boxCollider != null)
+				boxCollider.transform.position = pos;
+		}
     }
 	
 	// Update is called once per frame
