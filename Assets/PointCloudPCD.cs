@@ -18,9 +18,7 @@ public class PointCloudPCD : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-       // Dictionary<int, List<Mesh>> meshes = new Dictionary<int, List<Mesh>>();
-
-        framesByIndex = new Dictionary<int, Frame>();
+    	framesByIndex = new Dictionary<int, Frame>();
        
             // load point cloud cluster data
         string[] clusterFilesPath = {""};
@@ -54,11 +52,13 @@ public class PointCloudPCD : MonoBehaviour {
     	Material mat = Resources.Load("cloudmat") as Material;
 		for(int clusterID = 0; clusterID < maxNumberOfClusters; clusterID++){
 			GameObject a = new GameObject();
-			a.name = "Cluster" + clusterID;
+			a.name = "Cluster";
+			a.tag = "Cluster";
 			a.AddComponent<MeshFilter>();
 			MeshRenderer mr = a.AddComponent<MeshRenderer>();
 			mr.material = mat;
 			a.transform.parent = this.gameObject.transform;
+			a.AddComponent<BoxCollider>();
 
 			/*List<Mesh> clusterTemp = meshes[clusterID];
 			foreach(Mesh m in clusterTemp){
@@ -75,7 +75,9 @@ public class PointCloudPCD : MonoBehaviour {
 	}
 
 
-    string[] getClusterFilesPath(int index) {
+
+    string[] getClusterFilesPath(int index) 
+	{
 
         string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "OutputCloud" + index + "_*.pcd");
 
@@ -132,7 +134,7 @@ public class PointCloudPCD : MonoBehaviour {
         fs.Close();
         return clouds;
     }
-
+	
     private void setCloudToRender(List<Mesh> meshes, bool show)
     {
 		if(meshes == null)
@@ -141,6 +143,7 @@ public class PointCloudPCD : MonoBehaviour {
         foreach (Renderer r1 in r) {
             if (show) {
                 r1.enabled = true;
+
             }
             else {
                 r1.enabled = false;
@@ -157,6 +160,14 @@ public class PointCloudPCD : MonoBehaviour {
                 	mf.sharedMesh.Clear();
             }
         }
+		GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Cluster");
+		foreach (GameObject go in gameObjects) {
+			Vector3 pos = go.transform.position;
+			BoxCollider boxCollider = go.GetComponent<BoxCollider>();
+			//BoxCollider[] boxCollider = go.GetComponentsInChildren<BoxCollider>();
+			if(boxCollider != null)
+				boxCollider.transform.position = pos;
+		}
     }
 	
 	// Update is called once per frame
