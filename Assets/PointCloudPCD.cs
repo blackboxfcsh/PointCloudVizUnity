@@ -6,7 +6,6 @@ using System.IO;
 public class PointCloudPCD : MonoBehaviour {
 
     public string meshDirPath;
-    public string cameraFilePath;
     public int skipFirstX = 0;
     public int totalNumberOfPointClouds;
 	int maxNumberOfClusters = 0;
@@ -72,13 +71,13 @@ public class PointCloudPCD : MonoBehaviour {
 			}*/
 		}
         setCloudToRender(framesByIndex[0].GetClusterList(), true);
-		setInitialPositionIni();
+		//setInitialPositionIni();
 	}
 
 
     string[] getClusterFilesPath(int index) {
 
-        string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "outputCloud" + index + "_*.pcd");
+        string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "OutputCloud" + index + "_*.pcd");
 
         foreach (string p in clusterFilesPath)
             Debug.Log("cluster file path = " + p);
@@ -134,29 +133,10 @@ public class PointCloudPCD : MonoBehaviour {
         return clouds;
     }
 
-    private void setInitialPositionIni()
-    {
-        FileStream fs = new FileStream(cameraFilePath, FileMode.Open);
-        StreamReader sr = new StreamReader(fs);
-        float[] values = new float[6];
-        for (int i = 0; i < 6; i++)
-        {
-            char[] sep = { '=' };
-            string pos = sr.ReadLine();
-            string[] p = pos.Split(sep);
-            values[i] = float.Parse(p[1]);
-
-        }
-        Vector3 position = new Vector3(values[0], values[1], values[2]);
-        Vector3 rotation = new Vector3(values[3], values[4], values[5]);
-        this.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        this.gameObject.transform.Translate(position);
-        this.gameObject.transform.Rotate(rotation);
-
-    }
-
     private void setCloudToRender(List<Mesh> meshes, bool show)
     {
+		if(meshes == null)
+			return;
         Renderer[] r = GetComponentsInChildren<Renderer>();
         foreach (Renderer r1 in r) {
             if (show) {
@@ -169,11 +149,12 @@ public class PointCloudPCD : MonoBehaviour {
         MeshFilter[] filters = GetComponentsInChildren<MeshFilter>();
         int i = 0;
         foreach (MeshFilter mf in filters) {
-            if (i < meshes.Count) {
+			if (i < meshes.Count) {
                 mf.sharedMesh = meshes[i++];
             }
             else {
-                mf.sharedMesh.Clear();
+				if(mf.sharedMesh != null)
+                	mf.sharedMesh.Clear();
             }
         }
     }

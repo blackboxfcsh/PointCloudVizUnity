@@ -720,7 +720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshDirPath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/SecondSession/surface/Output2
-  cameraFilePath: /Users/mini/Work/BlackBox/github/PointCloudVizUnity/CalibrationFiles/SecondDataSet/surface.ini
+  cameraFilePath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/CalibrationFiles/SecondDataSet/surface.ini
   skipFirstX: 0
   currentCloud: 0
   playing: 0
@@ -742,7 +742,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 635600635}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
   m_Name: 
@@ -1184,7 +1184,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -69, y: -104}
+  m_AnchoredPosition: {x: -82, y: -104}
   m_SizeDelta: {x: 62.2000008, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &884232843
@@ -1394,7 +1394,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 34, y: -102}
+  m_AnchoredPosition: {x: 30, y: -102}
   m_SizeDelta: {x: 40, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &984475592
@@ -1500,7 +1500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshDirPath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/SecondSession/silvia/Output2
-  cameraFilePath: /Users/mini/Work/BlackBox/github/PointCloudVizUnity/CalibrationFiles/SecondDataSet/silvia.ini
+  cameraFilePath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/CalibrationFiles/SecondDataSet/silvia.ini
   skipFirstX: 0
   currentCloud: 0
   playing: 0
@@ -1522,7 +1522,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1027046561}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
   m_Name: 
@@ -1564,7 +1564,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: .5}
   m_AnchorMax: {x: 0, y: .5}
-  m_AnchoredPosition: {x: -31.2000008, y: -102}
+  m_AnchoredPosition: {x: 19, y: -102}
   m_SizeDelta: {x: 59.5, y: 30}
   m_Pivot: {x: 0, y: .5}
 --- !u!114 &1122453632
@@ -1871,7 +1871,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1904072587}
-        m_MethodName: OnClickNextFrame
+        m_MethodName: OnClickNextAnnotation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1916,6 +1916,51 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1355686870}
+--- !u!1 &1373592691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1373592693}
+  - 114: {fileID: 1373592692}
+  m_Layer: 0
+  m_Name: PointCloudCluster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1373592692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1373592691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshDirPath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/SecondSession/clusters
+  cameraFilePath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/CalibrationFiles/SecondDataSet/girafa.ini
+  skipFirstX: 0
+  totalNumberOfPointClouds: 450
+  currentCloud: 0
+  playing: 0
+--- !u!4 &1373592693
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1373592691}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 569.5, y: 354.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
 --- !u!1 &1390799522
 GameObject:
   m_ObjectHideFlags: 0
@@ -2709,7 +2754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1742746700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2721,8 +2766,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53123603d61b82f4e81b8388a167e835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshDirPath: /Users/mini/Work/BlackBox/Data/Joao Fiadeiro/Second Session/SecondTestPointClouds/girafa/Output2
-  cameraFilePath: /Users/mini/Work/BlackBox/github/PointCloudVizUnity/Assets/Resources/girafa.txt
+  meshDirPath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/SecondSession/girafa/Output2
+  cameraFilePath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/CalibrationFiles/SecondDataSet/girafa.ini
   skipFirstX: 0
   currentCloud: 0
   playing: 0
@@ -2744,7 +2789,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1742746699}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
   m_Name: 
@@ -3092,7 +3137,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 20, y: -104}
+  m_AnchoredPosition: {x: 5, y: -104}
   m_SizeDelta: {x: 97.8000031, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1900774999
@@ -3315,7 +3360,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
+  m_BackGroundColor: {r: .301470578, g: .292603791, b: .292603791, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -3567,9 +3612,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
