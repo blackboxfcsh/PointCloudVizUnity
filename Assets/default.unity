@@ -303,7 +303,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshDirPath: /Users/mini/Work/BlackBox/Data/Joao Fiadeiro/Second Session/SecondTestPointClouds/clusters
-  cameraFilePath: /Users/mini/Work/BlackBox/github/PointCloudVizUnity/Assets/Resources/girafa.txt
   skipFirstX: 0
   totalNumberOfPointClouds: 450
   currentCloud: 0
@@ -793,7 +792,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshDirPath: C:\Users\Joanna\Desktop\Data\JoaoFiadeiro\SecondSession\SecondTestPointClouds\surface\Output2\sample
-  cameraFilePath: C:\Users\Joanna\Documents\GitHub\PointCloudVizUnity\Assets\Resources/surface.txt
   skipFirstX: 1
   totalNumberOfPointClouds: 200
   currentCloud: 1
@@ -1573,7 +1571,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshDirPath: C:\Users\Joanna\Desktop\Data\JoaoFiadeiro\SecondSession\SecondTestPointClouds\silvia\Output2\sample
-  cameraFilePath: C:\Users\Joanna\Documents\GitHub\PointCloudVizUnity\Assets\Resources/silvia.txt
   skipFirstX: 0
   totalNumberOfPointClouds: 200
   currentCloud: 0
@@ -1988,10 +1985,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshDirPath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/SecondSession/clusters
-  cameraFilePath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/CalibrationFiles/SecondDataSet/girafa.ini
+  meshDirPath: /Users/mini/Work/Joao Fiadeiro/CTR Study/Data/SecondSession/clustersTemp
   skipFirstX: 0
-  totalNumberOfPointClouds: 450
+  totalNumberOfPointClouds: 101
   currentCloud: 0
   playing: 0
 --- !u!4 &1373592693
@@ -2005,7 +2001,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
 --- !u!1 &1390799522
 GameObject:
   m_ObjectHideFlags: 0
@@ -2840,7 +2836,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshDirPath: C:\Users\Joanna\Desktop\Data\JoaoFiadeiro\SecondSession\SecondTestPointClouds\girafa\Output2\sample
-  cameraFilePath: C:\Users\Joanna\Documents\GitHub\PointCloudVizUnity\Assets\Resources/girafa.txt
   skipFirstX: 0
   totalNumberOfPointClouds: 200
   currentCloud: 0

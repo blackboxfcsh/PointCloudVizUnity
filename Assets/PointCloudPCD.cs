@@ -52,14 +52,13 @@ public class PointCloudPCD : MonoBehaviour {
     	Material mat = Resources.Load("cloudmat") as Material;
 		for(int clusterID = 0; clusterID < maxNumberOfClusters; clusterID++){
 			GameObject a = new GameObject();
-			a.name = "Cluster";
+			a.name = "Cluster" + clusterID;
 			a.tag = "Cluster";
 			a.AddComponent<MeshFilter>();
 			MeshRenderer mr = a.AddComponent<MeshRenderer>();
 			mr.material = mat;
 			a.transform.parent = this.gameObject.transform;
 			a.AddComponent<BoxCollider>();
-
 			/*List<Mesh> clusterTemp = meshes[clusterID];
 			foreach(Mesh m in clusterTemp){
 				Vector3[] vertices = m.vertices;
@@ -70,12 +69,11 @@ public class PointCloudPCD : MonoBehaviour {
 				m.colors = colors;
 			}*/
 		}
-        setCloudToRender(framesByIndex[0].GetClusterList(), true);
+
+	    setCloudToRender(framesByIndex[0].GetClusterList(), true);
 		//setInitialPositionIni();
 	}
-
-
-
+	
     string[] getClusterFilesPath(int index) 
 	{
 
@@ -143,7 +141,6 @@ public class PointCloudPCD : MonoBehaviour {
         foreach (Renderer r1 in r) {
             if (show) {
                 r1.enabled = true;
-
             }
             else {
                 r1.enabled = false;
@@ -160,15 +157,19 @@ public class PointCloudPCD : MonoBehaviour {
                 	mf.sharedMesh.Clear();
             }
         }
+
 		GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Cluster");
 		foreach (GameObject go in gameObjects) {
 			Vector3 pos = go.transform.position;
+			Bounds bounds = go.GetComponent<Renderer>().bounds;
 			BoxCollider boxCollider = go.GetComponent<BoxCollider>();
 			//BoxCollider[] boxCollider = go.GetComponentsInChildren<BoxCollider>();
-			if(boxCollider != null)
-				boxCollider.transform.position = pos;
-		}
-    }
+			if(boxCollider != null) {
+				boxCollider.center =  bounds.center - go.transform.position;
+				boxCollider.size = bounds.size;
+			}
+	    }
+	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
