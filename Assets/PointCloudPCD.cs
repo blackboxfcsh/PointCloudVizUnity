@@ -58,16 +58,18 @@ public class PointCloudPCD : MonoBehaviour {
 			MeshRenderer mr = a.AddComponent<MeshRenderer>();
 			mr.material = mat;
 			a.transform.parent = this.gameObject.transform;
-			a.AddComponent<BoxCollider>();
-			/*List<Mesh> clusterTemp = meshes[clusterID];
-			foreach(Mesh m in clusterTemp){
-				Vector3[] vertices = m.vertices;
-				Color[] colors = new Color[vertices.Length];
-				for(int v = 0; v < vertices.Length; v++)
-					colors[0] = new Color(clusterID * 10, 255, clusterID * 20);
+		
+			// add script with effects
+			a.AddComponent<PointCloudEffects>();
 
-				m.colors = colors;
-			}*/
+			// add rigidbody and boxcollider for collision detection
+			Rigidbody rigidbody =  a.AddComponent<Rigidbody>();
+			rigidbody.useGravity = false;
+
+			BoxCollider boxCollider = a.AddComponent<BoxCollider>();
+			boxCollider.isTrigger = true;
+
+
 		}
 
 	    setCloudToRender(framesByIndex[0].GetClusterList(), true);
