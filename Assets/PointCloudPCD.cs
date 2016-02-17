@@ -14,6 +14,7 @@ public class PointCloudPCD : MonoBehaviour {
     public bool playing;
 	//Dictionary<int, List<Mesh>> meshes;
     Dictionary<int, Frame> framesByIndex;
+	bool show = true;
 
 	// Use this for initialization
 	void Start () {
@@ -58,6 +59,16 @@ public class PointCloudPCD : MonoBehaviour {
 			MeshRenderer mr = a.AddComponent<MeshRenderer>();
 			mr.material = mat;
 			a.transform.parent = this.gameObject.transform;
+
+			// change render mode to Fade
+			mr.material.SetFloat("_Mode", 2);
+			mr.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+			mr.material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+			mr.material.SetInt("_ZWrite", 0);
+			mr.material.DisableKeyword("_ALPHATEST_ON");
+			mr.material.EnableKeyword("_ALPHABLEND_ON");
+			mr.material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+			mr.material.renderQueue = 3000;
 		
 			// add script with effects
 			a.AddComponent<PointCloudEffects>();
@@ -171,6 +182,8 @@ public class PointCloudPCD : MonoBehaviour {
 				boxCollider.size = bounds.size;
 			}
 	    }
+
+
 	}
 	
 	// Update is called once per frame
@@ -178,12 +191,7 @@ public class PointCloudPCD : MonoBehaviour {
         Quaternion orient = transform.rotation;
         Quaternion cameraRot = Camera.main.transform.rotation;
         float ydiff = Mathf.Abs(orient.eulerAngles.y - cameraRot.eulerAngles.y);
-        bool show = true;
-        if (ydiff > 90 || cameraRot.eulerAngles.x < -30 || cameraRot.eulerAngles.z < -30)
-        {
-            //	show = false;
-        }
-
+    
         if (currentCloud == framesByIndex.Count)
             currentCloud = 0;
         setCloudToRender(framesByIndex[currentCloud].GetClusterList(), show);
