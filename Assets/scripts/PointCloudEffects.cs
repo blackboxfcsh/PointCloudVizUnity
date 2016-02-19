@@ -16,10 +16,10 @@ public class PointCloudEffects : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		var material = GetComponent<Renderer>().material;
+		/*var material = GetComponent<Renderer>().material;
 		var color = material.color;
 		
-		material.color = new Color(color.r, color.g, color.b, color.a - (fadePerSecond * Time.deltaTime));
+		material.color = new Color(color.r, color.g, color.b, color.a - (fadePerSecond * Time.deltaTime));*/
 
 		//Renderer clusterRenderer = gameObject.GetComponent<Renderer> ();
 		//mat.EnableKeyword ("_Emission");
