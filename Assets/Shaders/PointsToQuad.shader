@@ -5,8 +5,8 @@
     }
     SubShader {
         Pass {
-            Tags { "RenderType"="Opaque" }
-            LOD 200
+         //   Tags { "RenderType"="Opaque" }
+         //   LOD 200
 
             CGPROGRAM
             #pragma target 5.0
@@ -16,10 +16,18 @@
             #pragma fragment frag
             #include "UnityCG.cginc"
 
+			// Vert input
+			 struct vertexInput {
+				 float4 vertex : POSITION;
+				//float4 tex : TEXCOORD0;
+				float4 color : COLOR;
+			 };
+
             // Vert to geo
             struct v2g
             {
                 float4 pos: POSITION;
+				float4 color: COLOR;
             };
 
             // geo to frag
@@ -35,14 +43,13 @@
 
 
             // Vertex modifier function
-            v2g vert(appdata_base v) {
+            v2g vert(vertexInput input) {
 
-                v2g output = (v2g)0;
-                output.pos = mul(_Object2World, v.vertex);
-                // Just testing whether all vertices affected
-                output.pos.y -= _Amount;
+                v2g output;
+				output.pos = input.vertex;
+ 				output.color = input.color;
 
-                return output;
+				return output;
             }
 
             // GS_Main(point v2g p[1], inout TriangleStream<g2f> triStream)
@@ -51,28 +58,14 @@
             [maxvertexcount(4)]
             void GS_Main(point v2g p[1], inout TriangleStream<g2f> triStream)
             {
-                float4 v[4];
+				float3 right = (UNITY_MATRIX_MV[0][0], 
+                    UNITY_MATRIX_MV[1][0], 
+                    UNITY_MATRIX_MV[2][0]);
 
-                float3 asdfUp = float3(0, 1, 0);
-                float3 asdfRight = float3(0, 0, 1);
-                v[0] = float4(p[0].pos + 0.25 * asdfRight - 0.25 * asdfUp, 1.0f);
-                v[1] = float4(p[0].pos + 0.25 * asdfRight + 0.25 * asdfUp, 1.0f);
-                v[2] = float4(p[0].pos - 0.25 * asdfRight - 0.25 * asdfUp, 1.0f);
-                v[3] = float4(p[0].pos - 0.25 * asdfRight + 0.25 * asdfUp, 1.0f);
-
-                float4x4 vp = mul(UNITY_MATRIX_MVP, _World2Object);
-                g2f pIn;
-                pIn.pos = mul(vp, v[0]);
-                triStream.Append(pIn);
-
-                pIn.pos = mul(vp, v[1]);
-                triStream.Append(pIn);
-
-                pIn.pos = mul(vp, v[2]);
-                triStream.Append(pIn);
-
-                pIn.pos = mul(vp, v[3]);
-                triStream.Append(pIn);
+				float3 up = (UNITY_MATRIX_MV[0][1], 
+                 UNITY_MATRIX_MV[1][1], 
+                 UNITY_MATRIX_MV[2][1]);
+				
             }
 
             fixed4 frag(g2f input) : COLOR {
