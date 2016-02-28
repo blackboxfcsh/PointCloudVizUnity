@@ -1,6 +1,6 @@
-﻿//#if UNITY_STANDALONE
-//#define IMPORT_GLENABLE
-//#endif
+﻿#if UNITY_STANDALONE
+#define IMPORT_GLENABLE
+#endif
 
 using UnityEngine;
 using System;

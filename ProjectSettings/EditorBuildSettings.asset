@@ -7,3 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/default.unity
+  - enabled: 1
+    path: Assets/uWebKitExamples/Scenes/Example4Scene.unity
+  - enabled: 1
+    path: Assets/uWebKitExamples/Scenes/ExampleLoader.unity

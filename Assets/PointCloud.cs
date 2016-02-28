@@ -12,7 +12,7 @@ public class PointCloud : MonoBehaviour {
 	public int currentCloud = 0;
 	public bool playing;
 	Dictionary<int,List<Mesh>> meshes;
-
+	
 	// Use this for initialization
 	void Start () {
 		meshes = new Dictionary<int, List<Mesh>> ();
@@ -21,6 +21,8 @@ public class PointCloud : MonoBehaviour {
 			char[] sepFile = { '/' };
 			string[] path = f.Split (sepFile);
 			string name = path [path.Length - 1];
+			if(name.Equals(".DS_Store"))
+				continue;
 			name = name.Replace ("outputCloud", "");
 			int id = int.Parse (name);
 			id-=skipFirstX;
@@ -29,21 +31,23 @@ public class PointCloud : MonoBehaviour {
 			maxclouds = maxclouds < thecloud.Count?thecloud.Count:maxclouds;
 			meshes.Add(id,thecloud);
 		}
-
+		
 		Material mat = Resources.Load ("cloudmat") as Material;
 		List<Mesh> first = meshes [0];
 		for (int i = 0; i < maxclouds; i++) {
-			GameObject a = new GameObject();
-			a.AddComponent<MeshFilter>();
-			MeshRenderer mr = a.AddComponent<MeshRenderer>();
+			gameObject.AddComponent<MeshFilter>();
+			MeshRenderer mr = gameObject.AddComponent<MeshRenderer>();
 			mr.material = mat;
-			a.transform.parent = this.gameObject.transform;
 		}
+		
+		// invert scale on x axis to compensate kinect mirroring the data
+		transform.localScale += new Vector3(-1.0F, 1, 1);
+		
 		setCloudToRender (first,true);
 		setInitialPositionIni ();
-	
+		
 	}
-
+	
 	private void setInitialPosition(){
 		FileStream fs = new FileStream(cameraFilePath, FileMode.Open);
 		StreamReader sr = new StreamReader(fs);
@@ -57,7 +61,7 @@ public class PointCloud : MonoBehaviour {
 		this.gameObject.transform.Translate (position);
 		this.gameObject.transform.Rotate (rotation);
 	}
-
+	
 	private void setInitialPositionIni(){
 		FileStream fs = new FileStream (cameraFilePath, FileMode.Open);
 		StreamReader sr = new StreamReader (fs);
@@ -67,20 +71,20 @@ public class PointCloud : MonoBehaviour {
 			string pos = sr.ReadLine ();
 			string[] p = pos.Split (sep);
 			values[i] = float.Parse(p[1]);
-		
+			
 		}
 		Vector3 position = new Vector3 (values[0],values[1],values[2]);
 		Vector3 rotation = new Vector3 (values[3],values[4],values[5]);
 		this.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 		this.gameObject.transform.Translate (position);
 		this.gameObject.transform.Rotate (rotation);
-	
+		
 	}
-
-
-
+	
+	
+	
 	private void setCloudToRender(List<Mesh> meshes, bool show){
-		Renderer[] r = GetComponentsInChildren<Renderer>();
+		Renderer[] r = gameObject.GetComponents<Renderer> ();
 		foreach (Renderer r1 in r) {
 			if (show) {
 				r1.enabled = true;
@@ -88,7 +92,7 @@ public class PointCloud : MonoBehaviour {
 				r1.enabled = false;
 			}
 		}
-		MeshFilter[] filters = GetComponentsInChildren<MeshFilter> ();
+		MeshFilter[] filters = gameObject.GetComponents<MeshFilter> ();
 		int i = 0;
 		foreach (MeshFilter mf in filters) {
 			if(i < meshes.Count){
@@ -98,17 +102,17 @@ public class PointCloud : MonoBehaviour {
 			}
 		}
 	}
-
+	
 	private List<Mesh> readFile(string f)
 	{
 		FileStream fs = new FileStream(f, FileMode.Open);
 		StreamReader sr = new StreamReader(fs);
-		 
+		
 		List<Vector3> points = new List<Vector3> ();
 		List<int> ind = new List<int> ();
 		List<Color> colors = new List<Color> ();
 		List<Mesh> clouds = new List<Mesh> ();
-
+		
 		string line = "";
 		int i = 0;
 		Mesh m = new Mesh ();
@@ -121,7 +125,7 @@ public class PointCloud : MonoBehaviour {
 				float x = float.Parse (lin [0]);
 				float y = float.Parse (lin [1]);
 				float z = float.Parse (lin [2]);
-	
+				
 				bool use = false;
 				Color c = new Color ();
 				if (lin [3] != "0" && lin [4] != "0" && lin [5] != "0" && lin [3] != "" && lin [4] != "" && lin [5] != "") {
@@ -157,21 +161,21 @@ public class PointCloud : MonoBehaviour {
 		fs.Close ();
 		return clouds;
 	}
-
+	
 	void FixedUpdate(){
 		Quaternion orient = transform.rotation;
 		Quaternion cameraRot = Camera.main.transform.rotation;
 		float ydiff = Mathf.Abs(orient.eulerAngles.y - cameraRot.eulerAngles.y);
 		bool show = true;
 		if (ydiff > 90 || cameraRot.eulerAngles.x < -30 || cameraRot.eulerAngles.z < -30) {
-		//	show = false;
+			//	show = false;
 		}
-
+		
 		if (currentCloud == meshes.Count)
 			currentCloud = 0;
 		setCloudToRender (meshes [currentCloud],show);
 		if (playing)
 			currentCloud++;
 	}
-
+	
 }

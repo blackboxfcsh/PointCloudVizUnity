@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 
 public class PointCloudPCD : MonoBehaviour {
 
@@ -35,7 +36,7 @@ public class PointCloudPCD : MonoBehaviour {
                 int i = idx;
 				foreach (string f in clusterFilesPath) {
                     Debug.Log("id = " + i + " - filename = " + f);
-					List<Mesh> thecloud = readFileNoColor(f);
+					List<Mesh> thecloud = readFileWithColor(f);
                     frame.AddCluster(i, thecloud);
                     i++;
 				}
@@ -90,12 +91,71 @@ public class PointCloudPCD : MonoBehaviour {
     string[] getClusterFilesPath(int index) 
 	{
 
-        string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "OutputCloud" + index + "_*.pcd");
+        string[] clusterFilesPath = Directory.GetFiles(meshDirPath, "OutputCloud" + index + "_*.ply");
 
         foreach (string p in clusterFilesPath)
             Debug.Log("cluster file path = " + p);
         return clusterFilesPath;
     }
+
+	private List<Mesh> readFileWithColor(string f)
+	{
+		FileStream fs = new FileStream(f, FileMode.Open);
+		StreamReader sr = new StreamReader(fs);
+		
+		List<Vector3> points = new List<Vector3> ();
+		List<int> ind = new List<int> ();
+		List<Color> colors = new List<Color> ();
+		List<Mesh> clouds = new List<Mesh> ();
+		
+		string line = "";
+		int i = 0;
+		Mesh m = new Mesh ();
+		while (!sr.EndOfStream) {
+			line = sr.ReadLine ();
+			line = line.Replace(",",".");
+			char[] sep = { ' ' };
+			string[] lin = line.Split (sep);
+			if (lin.Length == 6 && lin [0] != "" && lin [1] != "" && lin [2] != "") {
+				float x = float.Parse (lin [0]);
+				float y = float.Parse (lin [1]);
+				float z = float.Parse (lin [2]);
+				
+				bool use = false;
+				Color c = new Color ();
+				if (lin [3] != "0" &&  lin [3] != "") {
+					c.b = int.Parse (lin [5]) / 255.0f;
+					c.g = int.Parse (lin [4]) / 255.0f;
+					c.r = int.Parse (lin [3]) / 255.0f;
+					use = true;
+					
+				}
+				if (use) {
+					points.Add(new Vector3(x,y,z));
+					ind.Add(i);
+					colors.Add (c);
+					i++;
+				}
+			}
+			if(i == 65000){
+				m.vertices = points.ToArray ();
+				m.colors = colors.ToArray ();
+				m.SetIndices (ind.ToArray(), MeshTopology.Points, 0);
+				clouds.Add(m);
+				m = new Mesh();
+				i = 0;
+				points.Clear();
+				colors.Clear();
+				ind.Clear();
+			}
+		}
+		m.vertices = points.ToArray ();
+		m.colors = colors.ToArray ();
+		m.SetIndices (ind.ToArray(), MeshTopology.Points, 0);
+		clouds.Add(m);
+		fs.Close ();
+		return clouds;
+	}
 
     private List<Mesh> readFileNoColor(string f)
     {
