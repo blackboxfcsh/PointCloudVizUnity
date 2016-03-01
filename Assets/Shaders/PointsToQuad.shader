@@ -16,6 +16,8 @@
             #pragma fragment frag
             #include "UnityCG.cginc"
 
+			uniform float size; // Particle size
+
 			// Vert input
 			 struct vertexInput {
 				 float4 vertex : POSITION;
@@ -65,8 +67,15 @@
 				float3 up = (UNITY_MATRIX_MV[0][1], 
                  UNITY_MATRIX_MV[1][1], 
                  UNITY_MATRIX_MV[2][1]);
+
+				float3 P = p[0].pos.xyz;
 				
-            }
+				float3 va = P - (right + up) * size;
+				p[0].pos = UNITY_MATRIX_MVP * float4(va, 1.0);
+				Vertex_UV = float2(0.0, 0.0);
+				Vertex_Color = p[0].color;
+				EmitVertex(); 
+			}
 
             fixed4 frag(g2f input) : COLOR {
                 return float4(1.0, 0.0, 0.0, 1.0); 

@@ -116,7 +116,7 @@ public class PointCloudPCD : MonoBehaviour {
 			line = line.Replace(",",".");
 			char[] sep = { ' ' };
 			string[] lin = line.Split (sep);
-			if (lin.Length == 6 && lin [0] != "" && lin [1] != "" && lin [2] != "") {
+			if (lin.Length == 10 && lin [0] != "" && lin [1] != "" && lin [2] != "") {
 				float x = float.Parse (lin [0]);
 				float y = float.Parse (lin [1]);
 				float z = float.Parse (lin [2]);
@@ -299,5 +299,22 @@ public class Frame {
     }
 
     // add anotation to cluster
+}
 
+public class Cluster
+{
+    List<Mesh> mesh;
+  //  Color rgb;
+   // Vector3 normal;
+    int idx;
+    
+
+    public Cluster(List<Mesh> mesh, int idx)
+    {
+        this.mesh = mesh;
+        this.idx = idx;
+    }
+
+    List<Mesh> GetMesh() { return mesh; }
+    void SetMesh(List<Mesh> mesh) { this.mesh = mesh; }
 }
