@@ -104,13 +104,14 @@ public class PointCloudPCD : MonoBehaviour {
 		StreamReader sr = new StreamReader(fs);
 		
 		List<Vector3> points = new List<Vector3> ();
+        List<Vector3> normals = new List<Vector3>();
 		List<int> ind = new List<int> ();
 		List<Color> colors = new List<Color> ();
 		List<Mesh> clouds = new List<Mesh> ();
 		
 		string line = "";
 		int i = 0;
-		Mesh m = new Mesh ();
+    	Mesh m = new Mesh ();
 		while (!sr.EndOfStream) {
 			line = sr.ReadLine ();
 			line = line.Replace(",",".");
@@ -123,35 +124,54 @@ public class PointCloudPCD : MonoBehaviour {
 				
 				bool use = false;
 				Color c = new Color ();
-				if (lin [3] != "0" &&  lin [3] != "") {
+                float nx = 0.0f;
+                float ny = 0.0f;
+                float nz = 0.0f;
+                if (lin[3] != "0" && lin[3] != "" && 
+                    lin[4] != "0" && lin[4] != "" && 
+                    lin[5] != "0" && lin[5] != "" &&
+                    lin[6] != "0" && lin[6] != "" &&
+                    lin[7] != "0" && lin[7] != "" &&
+                    lin[8] != "0" && lin[8] != "")
+                {
+                    // read color
 					c.b = int.Parse (lin [5]) / 255.0f;
 					c.g = int.Parse (lin [4]) / 255.0f;
 					c.r = int.Parse (lin [3]) / 255.0f;
 					use = true;
-					
+
+                    // read normals
+                    nx = float.Parse(lin[6]);
+                    ny = float.Parse(lin[7]);
+                    nz = float.Parse(lin[8]);
 				}
 				if (use) {
 					points.Add(new Vector3(x,y,z));
-					ind.Add(i);
+                    ind.Add(i);
 					colors.Add (c);
-					i++;
+                    normals.Add(new Vector3(nx, ny, nz));
+                    i++;
 				}
+              
 			}
 			if(i == 65000){
 				m.vertices = points.ToArray ();
 				m.colors = colors.ToArray ();
 				m.SetIndices (ind.ToArray(), MeshTopology.Points, 0);
+                m.normals = normals.ToArray();
 				clouds.Add(m);
 				m = new Mesh();
 				i = 0;
 				points.Clear();
 				colors.Clear();
 				ind.Clear();
+                normals.Clear();
 			}
 		}
 		m.vertices = points.ToArray ();
 		m.colors = colors.ToArray ();
 		m.SetIndices (ind.ToArray(), MeshTopology.Points, 0);
+        m.normals = normals.ToArray();
 		clouds.Add(m);
 		fs.Close ();
 		return clouds;
@@ -304,7 +324,7 @@ public class Frame {
 public class Cluster
 {
     List<Mesh> mesh;
-  //  Color rgb;
+    Color rgb;
    // Vector3 normal;
     int idx;
     
