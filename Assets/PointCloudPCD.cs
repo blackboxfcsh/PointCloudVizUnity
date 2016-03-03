@@ -51,7 +51,7 @@ public class PointCloudPCD : MonoBehaviour {
         }
 
         // create game objects
-    	Material mat = Resources.Load("cloudmat") as Material;
+        Material mat = Resources.Load("clustersMaterial") as Material;
 		for(int clusterID = 0; clusterID < maxNumberOfClusters; clusterID++){
 			GameObject a = new GameObject();
 			a.name = "Cluster" + clusterID;

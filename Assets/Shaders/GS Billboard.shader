@@ -4,7 +4,7 @@ Shader "Custom/GS Billboard"
 	{
 		_SpriteTex ("Base (RGB)", 2D) = "white" {}
 		_Size ("Size", Range(0, 3)) = 0.03
-		_Color ("Color", Color) = (1, 1, 1, 0.5) 
+		_Color ("Color", Color) = (1, 1, 1, 0.2) 
 	}
 
 	SubShader 
@@ -13,7 +13,9 @@ Shader "Custom/GS Billboard"
 		{
 			Tags { "RenderType"="Opaque" }
 			LOD 200
-		
+			
+			Cull Off // render both back and front faces
+
 			CGPROGRAM
 				#pragma target 5.0
 				#pragma vertex VS_Main
@@ -73,7 +75,7 @@ Shader "Custom/GS Billboard"
 				[maxvertexcount(4)]
 				void GS_Main(point GS_INPUT p[1], inout TriangleStream<FS_INPUT> triStream)
 				{
-					/*float nx = p[0].normal.x;
+					float nx = p[0].normal.x;
 					float ny = p[0].normal.y;
 					float nz = p[0].normal.z;
 					float n = sqrt(pow(nx,2) + pow(ny,2) + pow(nz,2));
@@ -84,14 +86,14 @@ Shader "Custom/GS Billboard"
 					float h = sqrt(pow(h1,2) + pow(h2,2) + pow(h3,2));
 					float3 right = float3(-2*h1*h2/pow(h,2), 1 - 2*pow(h2,2)/pow(h,2), -2*h2*h3/pow(h,2));
 					float3 up = float3(-2*h1*h3/pow(h,2), -2*h2*h3/pow(h,2), 1 - 2*pow(h3,2)/pow(h,2));
-					*/
-
+					
+					/*
 					float3 up = float3(0, 1, 0);
 					float3 look = _WorldSpaceCameraPos - p[0].pos;
 					look.y = 0;
 					look = normalize(look);
 					float3 right = cross(up, look);
-					
+					*/
 					
 					
 					float halfS = 0.5f * _Size;
@@ -128,7 +130,7 @@ Shader "Custom/GS Billboard"
 
 
 				// Fragment Shader -----------------------------------------------
-				float3 FS_Main(FS_INPUT input) : COLOR
+				float4 FS_Main(FS_INPUT input) : COLOR
 				{
 
 					
@@ -136,7 +138,7 @@ Shader "Custom/GS Billboard"
 					if(texColor.a < 0.3)
 						discard;
 					
-					return texColor * input.color.rgb; // TODO: do an average + _Color.rgb;
+					return texColor * (input.color*0.85 + _Color*0.15);
 				}
 
 			ENDCG

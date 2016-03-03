@@ -1558,7 +1558,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: .5}
   m_AnchorMax: {x: 0, y: .5}
-  m_AnchoredPosition: {x: 112, y: -102}
+  m_AnchoredPosition: {x: 25.1000004, y: -102}
   m_SizeDelta: {x: 59.5, y: 30}
   m_Pivot: {x: 0, y: .5}
 --- !u!114 &1122453632
@@ -1937,9 +1937,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshDirPath: E:\Clusters
+  meshDirPath: E:\Data\JoaoFiadeiro\SecondSession\SecondTestPointClouds\test
   skipFirstX: 0
-  totalNumberOfPointClouds: 210
+  totalNumberOfPointClouds: 2
   currentCloud: 0
   playing: 0
 --- !u!4 &1373592693

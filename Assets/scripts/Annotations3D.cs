@@ -256,13 +256,13 @@ public class Annotations3D : MonoBehaviour {
 		textMeshPro.transform.position = annotationText.PositionKin;
 		
 		// CALIBRATION 
-		/*Calibration calibration = calibrations[currentCalibration];
+		Calibration calibration = calibrations[currentCalibration];
 		
 		textMeshPro.transform.Rotate (calibration.RotationX,
 		                           calibration.RotationY, calibration.RotationZ);
 		
 		textMeshPro.transform.Translate (calibration.Position.x, 
-		                              calibration.Position.y, calibration.Position.z);*/
+		                              calibration.Position.y, calibration.Position.z);
 		
 		gameObjectsInTheScene.Add (textMeshPro.gameObject);
 	}
