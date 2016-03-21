@@ -34,11 +34,13 @@ public class Annotations3D : MonoBehaviour {
 	List<int> annotationListOrderByID;
 	
 	List<GameObject> gameObjectsInTheScene;
+
 	public List<GameObject> GameObjectsInTheScene {
 		get {return gameObjectsInTheScene;}
 		set {gameObjectsInTheScene =  value;}
 	}
-	
+
+    List<GameObject> clusters;
 	
 	GameObject canvas;
 	
@@ -47,7 +49,11 @@ public class Annotations3D : MonoBehaviour {
 		
 		
 		LoadCalibrationData ();
-		
+
+        clusters = new List<GameObject>();
+
+        clusters.AddRange(GameObject.FindGameObjectsWithTag("Cluster"));
+
 		annotations = new Dictionary<int,Annotation>();
 		gameObjectsInTheScene = new List<GameObject> ();
 		canvas = GameObject.Find("/Canvas");
@@ -240,31 +246,76 @@ public class Annotations3D : MonoBehaviour {
 		}
 		return annotation;
 	}
-	
-	
+
+    GameObject FindClosestCluster(Vector3 annotationPos)
+    {
+        float minDistance = -1.0f;
+        GameObject result = null;
+        foreach (GameObject cluster in clusters)
+        {
+            float distance = Vector3.Distance(annotationPos, cluster.transform.position);
+            if (minDistance == -1.0f)
+            {
+                minDistance = distance;
+                result = cluster;
+            }
+                
+             if (distance < minDistance)
+             {
+                 distance = minDistance;
+                 result = cluster;
+             }
+               
+        }
+        return result;
+    }
 	
 	void WriteTextAnnotation(AnnotationText annotationText){
 		
 		GameObject textObject = new GameObject ();
-		TextMeshPro textMeshPro = textObject.AddComponent<TextMeshPro> ();
-		textMeshPro.gameObject.AddComponent <CameraFacingBillboard>();
+        TextMesh textMesh = textObject.AddComponent<TextMesh>();
+       // GameObject textMeshGameObject = Resources.Load("TextMeshPrefab") as GameObject;
+
+       // TextMesh textMesh = textMeshGameObject.GetComponent<TextMesh>();
+
+        textMesh.characterSize = 0.1f;
+        textMesh.text = annotationText.TextValue;
+        textMesh.color = new Color(annotationText.FormattingText.Color.r, annotationText.FormattingText.Color.g,
+                                      annotationText.FormattingText.Color.b);
+
+        GameObject cluster = FindClosestCluster(annotationText.PositionKin);
+        if (cluster == null)
+        {
+            Debug.Log("Error: Could find cluster to add annotation!");
+            return;
+        }
+
+        textObject.AddComponent<FollowGameObject>();
+        textMesh.transform.parent = cluster.transform;
+       
+      //  TextMesh annotationMesh = cluster.AddComponent<TextMesh>();
+       // annotationMesh = textMesh;
+
+
+        /*TextMeshPro textMeshPro = textObject.AddComponent<TextMeshPro> ();
+        textMeshPro.gameObject.AddComponent <CameraFacingBillboard>();
 		
-		textMeshPro.fontSize = 1;
-		textMeshPro.text = annotationText.TextValue;
-		textMeshPro.color = new Color(annotationText.FormattingText.Color.r, annotationText.FormattingText.Color.g,
-		                              annotationText.FormattingText.Color.b);
-		textMeshPro.transform.position = annotationText.PositionKin;
+        textMeshPro.fontSize = 1;
+        textMeshPro.text = annotationText.TextValue;
+        textMeshPro.color = new Color(annotationText.FormattingText.Color.r, annotationText.FormattingText.Color.g,
+                                      annotationText.FormattingText.Color.b);
+        textMeshPro.transform.position = annotationText.PositionKin;
 		
-		// CALIBRATION 
-		Calibration calibration = calibrations[currentCalibration];
+        // CALIBRATION 
+        Calibration calibration = calibrations[currentCalibration];
 		
-		textMeshPro.transform.Rotate (calibration.RotationX,
-		                           calibration.RotationY, calibration.RotationZ);
+        textMeshPro.transform.Rotate (calibration.RotationX,
+                                   calibration.RotationY, calibration.RotationZ);
 		
-		textMeshPro.transform.Translate (calibration.Position.x, 
-		                              calibration.Position.y, calibration.Position.z);
-		
-		gameObjectsInTheScene.Add (textMeshPro.gameObject);
+        textMeshPro.transform.Translate (calibration.Position.x, 
+                                      calibration.Position.y, calibration.Position.z);*/
+
+        gameObjectsInTheScene.Add (textMesh.gameObject);
 	}
 	
 	void WriteInkAnnotation(AnnotationInk annotationInk){
@@ -295,6 +346,8 @@ public class Annotations3D : MonoBehaviour {
 		
 		lineRenderer.transform.Translate (calibration.Position.x, 
 		                                  calibration.Position.y, calibration.Position.z);
+
+        gameObjectsInTheScene.Add(lineRenderer.gameObject);
 	}
 	
 	void WriteLinkAnnotation(AnnotationLink annotationLink){

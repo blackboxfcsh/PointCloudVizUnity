@@ -1937,9 +1937,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshDirPath: E:\Data\JoaoFiadeiro\SecondSession\SecondTestPointClouds\test
+  meshDirPath: G:\Data\JoaoFiadeiro\SecondSession\SecondTestPointClouds\clusters
   skipFirstX: 0
-  totalNumberOfPointClouds: 2
+  totalNumberOfPointClouds: 450
   currentCloud: 0
   playing: 0
 --- !u!4 &1373592693
@@ -3599,9 +3599,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
