@@ -290,7 +290,7 @@ public class Annotations3D : MonoBehaviour {
             return;
         }
 
-        textObject.AddComponent<FollowGameObject>();
+		textObject.AddComponent<GameObjectFollowBoxCollider>();
         textMesh.transform.parent = cluster.transform;
        
       //  TextMesh annotationMesh = cluster.AddComponent<TextMesh>();
