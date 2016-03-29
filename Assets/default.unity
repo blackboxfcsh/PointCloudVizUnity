@@ -562,8 +562,8 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Time: 1
-  m_StartWidth: 1
-  m_EndWidth: 1
+  m_StartWidth: .5
+  m_EndWidth: .5
   m_Colors:
     m_Color[0]:
       serializedVersion: 2
@@ -600,11 +600,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 511966373}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5eb92ba7aad44e4398f818dd970532f, type: 3}
+  m_Script: {fileID: 11500000, guid: dd204766775ce405e9f96b39361ae5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxDistance: 2
 --- !u!1 &532468932
 GameObject:
   m_ObjectHideFlags: 0
@@ -2004,6 +2005,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1373592693}
   - 114: {fileID: 1373592692}
+  - 114: {fileID: 1373592694}
   m_Layer: 0
   m_Name: PointCloudCluster
   m_TagString: Untagged
@@ -2024,7 +2026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshDirPath: /Users/mini/Work/BlackBox/Data/Joao Fiadeiro/Second Session/SecondTestPointClouds/clusters
   skipFirstX: 0
-  totalNumberOfPointClouds: 450
+  totalNumberOfPointClouds: 400
   currentCloud: 0
   playing: 0
 --- !u!4 &1373592693
@@ -2039,6 +2041,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+--- !u!114 &1373592694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1373592691}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea80cd0593f28424e870493a875b821a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: .00999999978
 --- !u!1 &1390799522
 GameObject:
   m_ObjectHideFlags: 0

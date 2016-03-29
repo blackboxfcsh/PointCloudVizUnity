@@ -20,8 +20,8 @@ public class CTRConcepts : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if(Input.GetKeyDown(KeyCode.Q))
-			DrawTrail(clusterList[0]);
+		foreach(GameObject cluster in clusterList)
+			ChangeColor (cluster);
 	
 	}
 
@@ -29,7 +29,7 @@ public class CTRConcepts : MonoBehaviour {
 		
 		Debug.Log ("change color");
 		
-		Material[] materials = GetComponent<Renderer>().materials;
+		Material[] materials = cluster.GetComponent<Renderer>().materials;
 		foreach(Material mat in materials) {
 			mat.SetColor ("_EmissionColor", Color.blue);
 			mat.color = Color.red;
