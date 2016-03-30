@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: clustersMaterial
-  m_Shader: {fileID: 4800000, guid: 616fe43cc0ccb1247b1e9bd925204a1f, type: 3}
+  m_Shader: {fileID: 4800000, guid: ab6a640b5ca004bd685d1e01a53dec05, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000

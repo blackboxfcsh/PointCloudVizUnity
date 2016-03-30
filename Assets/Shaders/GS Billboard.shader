@@ -138,7 +138,7 @@ Shader "Custom/GS Billboard"
 					if(texColor.a < 0.3)
 						discard;
 					
-					return texColor * (input.color*0.85 + _Color*0.15);
+					return texColor * (input.color*0.70 + _Color*0.30);
 				}
 
 			ENDCG
