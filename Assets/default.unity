@@ -2035,9 +2035,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshDirPath: E:\Data\JoaoFiadeiro\SecondSession\SecondTestPointClouds\clusters
+  meshDirPath: E:\clusters
   skipFirstX: 0
-  totalNumberOfPointClouds: 450
+  totalNumberOfPointClouds: 10
   currentCloud: 0
   playing: 0
 --- !u!4 &1373592693

@@ -6,16 +6,100 @@ public class PointCloudEffects : MonoBehaviour {
 
 	GameObject[] clustersGameObjects;
 	[SerializeField] private float fadePerSecond = 0.05f;
+    float pathSize = 0.01f;
+    float dev = 0.12f;
+    float gamma = 4.0f;
+    float sigmax = 0.15f;
+    float sigmay = 0.12f;
+    float alpha = 0.5f;
 
 	// Use this for initialization
 	void Start () {
 	
 		clustersGameObjects = GameObject.FindGameObjectsWithTag("Cluster");
+
+        GetComponent<Renderer>().material.SetFloat("_Size", pathSize);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+        
+
+        // control patch size
+        if(Input.GetKeyDown(KeyCode.H)) 
+        {
+            pathSize -= 0.01f;
+            GetComponent<Renderer>().material.SetFloat("_Size", pathSize);
+        }
+        else if (Input.GetKeyDown(KeyCode.N))
+        {
+            pathSize += 0.01f;
+            GetComponent<Renderer>().material.SetFloat("_Size", pathSize);
+        }
+
+        // control gaussiasn centers
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            dev += 0.01f;
+            GetComponent<Renderer>().material.SetFloat("_Dev", dev);
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
+        {
+            dev -= 0.01f;
+            GetComponent<Renderer>().material.SetFloat("_Dev", dev);
+        }
+
+        // control gaussian form: circular, eliptical and squared
+        else if (Input.GetKeyDown(KeyCode.G))
+        {
+            gamma += 0.1f;
+            GetComponent<Renderer>().material.SetFloat("_Gamma", gamma);
+        }
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
+            gamma -= 0.1f;
+            GetComponent<Renderer>().material.SetFloat("_Gamma", gamma);
+        }
+
+        // control how fast the gaussian decay in X
+        else if (Input.GetKeyDown(KeyCode.J))
+        {
+            sigmax += 0.001f;
+            GetComponent<Renderer>().material.SetFloat("_SigmaX", sigmax);
+        }
+        else if (Input.GetKeyDown(KeyCode.M))
+        {
+            sigmax -= 0.001f;
+            GetComponent<Renderer>().material.SetFloat("_SigmaX", sigmax);
+        }
+
+        // control how fast the gaussian decay in Y
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            sigmay += 0.001f;
+            GetComponent<Renderer>().material.SetFloat("_SigmaY", sigmay);
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            sigmay -= 0.001f;
+            GetComponent<Renderer>().material.SetFloat("_SigmaY", sigmay);
+        }
+
+        else if (Input.GetKeyDown(KeyCode.I))
+        {
+            alpha += 0.01f;
+            GetComponent<Renderer>().material.SetFloat("_Alpha", alpha);
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            alpha -= 0.01f;
+            GetComponent<Renderer>().material.SetFloat("_Alpha", alpha);
+        }
+
+        Debug.Log("Dev = " + dev + " | alpha = " + alpha);
+        
+
 		/*var material = GetComponent<Renderer>().material;
 		var color = material.color;
 		
