@@ -14,7 +14,7 @@ public class ButtonManager : MonoBehaviour {
 	//bool playing = false;
 	Scrollbar scrollBar;
 	float scrollbarStep = 0.0f;
-	PointCloudPCD[] clouds = null;
+    PointCloudPCD[] clouds = null;
 	float numberOfFrames = 0.5f;
 	int numberOfAnnotations = 0;
 	GameObject buttonType;
@@ -77,7 +77,7 @@ public class ButtonManager : MonoBehaviour {
 	
 	
 	public void OnClickNextFrame(){
-		foreach (PointCloudPCD pc in clouds)
+        foreach (PointCloudPCD pc in clouds)
 		{
 			pc.currentCloud++;
 		}
@@ -87,7 +87,7 @@ public class ButtonManager : MonoBehaviour {
 	}
 	
 	public void OnClickPreviousFrame(){
-		foreach (PointCloudPCD pc in clouds)
+        foreach (PointCloudPCD pc in clouds)
 		{
 			pc.currentCloud--;
 		}
@@ -96,7 +96,7 @@ public class ButtonManager : MonoBehaviour {
 	}
 	
 	public void OnClickNextJumpFrames(){
-		foreach (PointCloudPCD pc in clouds)
+        foreach (PointCloudPCD pc in clouds)
 		{
 			pc.currentCloud+=10;
 		}
@@ -105,7 +105,7 @@ public class ButtonManager : MonoBehaviour {
 	}
 	
 	public void OnClickPreviousJumpFrames(){
-		foreach (PointCloudPCD pc in clouds)
+        foreach (PointCloudPCD pc in clouds)
 		{
 			pc.currentCloud-=10;
 		}
@@ -115,7 +115,7 @@ public class ButtonManager : MonoBehaviour {
 	}
 	
 	public void OnClickPause(){
-		foreach (PointCloudPCD pc in clouds)
+        foreach (PointCloudPCD pc in clouds)
 		{
 			
 			if(pc.playing) {

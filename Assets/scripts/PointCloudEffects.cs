@@ -7,11 +7,11 @@ public class PointCloudEffects : MonoBehaviour {
 	GameObject[] clustersGameObjects;
 	[SerializeField] private float fadePerSecond = 0.05f;
     float pathSize = 0.01f;
-    float dev = 0.12f;
-    float gamma = 4.0f;
-    float sigmax = 0.15f;
-    float sigmay = 0.12f;
-    float alpha = 0.5f;
+    float dev = 0.38f;
+    float gamma = 2.7f;
+    float sigmax = 0.142f;
+    float sigmay = 0.0709f;
+    float alpha = 1.07f;
 
 	// Use this for initialization
 	void Start () {

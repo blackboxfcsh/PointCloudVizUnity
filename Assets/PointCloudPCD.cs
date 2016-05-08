@@ -24,30 +24,41 @@ public class PointCloudPCD : MonoBehaviour {
        
             // load point cloud cluster data
         string[] clusterFilesPath = {""};
-
+      
         for (int idx = skipFirstX; idx <= totalNumberOfPointClouds; idx++)
         {
             clusterFilesPath = getClusterFilesPath(idx);
-			if(clusterFilesPath.Length == 0)
-				continue;
-			else {
-				// load point cloud cluster data in Mesh objects
+       
+            Array.Sort<string>(clusterFilesPath);
+
+            if (clusterFilesPath.Length == 0)
+                 continue;
+            else
+            {
+                // load point cloud cluster data in Mesh objects
                 Frame frame = new Frame();
                 int i = idx;
-				foreach (string f in clusterFilesPath) {
+                int n = 0;
+                foreach (string f in clusterFilesPath)
+                {
                     Debug.Log("id = " + i + " - filename = " + f);
-					List<Mesh> thecloud = readFileWithColor(f);
+                    List<Mesh> thecloud = readFileWithColor(f);
                     frame.AddCluster(i, thecloud);
                     i++;
-				}
-				Debug.Log("idx = " + idx);
-				framesByIndex.Add(idx, frame);
+
+                    if (n == totalNumberOfPointClouds)
+                        break;
+                    n++;
+
+                }
+                Debug.Log("idx = " + idx);
+                framesByIndex.Add(idx, frame);
 
                 int numberOfClusters = framesByIndex[idx].GetClusterList().Count;
-                if(maxNumberOfClusters < numberOfClusters)
-                    maxNumberOfClusters = numberOfClusters;
+                if (maxNumberOfClusters < numberOfClusters)
+                   maxNumberOfClusters = numberOfClusters;
                 Debug.Log("frames number = " + idx + " number of clusters = " + numberOfClusters);
-			}
+            }
         }
 
         // create game objects
@@ -87,6 +98,7 @@ public class PointCloudPCD : MonoBehaviour {
 	    setCloudToRender(framesByIndex[0].GetClusterList(), true);
 		//setInitialPositionIni();
 	}
+
 	
     string[] getClusterFilesPath(int index) 
 	{
@@ -96,6 +108,16 @@ public class PointCloudPCD : MonoBehaviour {
         foreach (string p in clusterFilesPath)
             Debug.Log("cluster file path = " + p);
         return clusterFilesPath;
+    }
+
+    string[] getOutputCloudsClusterX(int index) {
+
+
+        string[] clusterXFilesPath = Directory.GetFiles(meshDirPath, "*cloud_cluster_" +  index + ".ply");
+
+        foreach (string p in clusterXFilesPath)
+            Debug.Log("cluster file path = " + p);
+        return clusterXFilesPath;
     }
 
 	private List<Mesh> readFileWithColor(string f)

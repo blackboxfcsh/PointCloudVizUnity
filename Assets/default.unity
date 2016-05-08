@@ -828,7 +828,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &635600636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1594,7 +1594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1027046562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1606,7 +1606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53123603d61b82f4e81b8388a167e835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshDirPath: 
+  meshDirPath: C:\Users\claud\Desktop\guitardata\sample
   cameraFilePath: 
   skipFirstX: 0
   currentCloud: 0
@@ -2035,9 +2035,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83135a495a5379d47a273bd8d4e0ec02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshDirPath: E:\clusters
+  meshDirPath: C:\Users\claud\Desktop\sample
   skipFirstX: 0
-  totalNumberOfPointClouds: 10
+  totalNumberOfPointClouds: 100
   currentCloud: 0
   playing: 0
 --- !u!4 &1373592693
@@ -2860,7 +2860,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1742746700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3510,11 +3510,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef7f48b404865444f8bed6e6654cdd5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  calibration1txt: 
-  calibration2txt: 
-  calibration3txt: 
-  currentCalibration: 
-  xmlPath: 
+  calibration1txt: girafa
+  calibration2txt: silvia
+  calibration3txt: surface
+  currentCalibration: girafa
+  xmlPath: outputSecondSession
 --- !u!114 &1904072587
 MonoBehaviour:
   m_ObjectHideFlags: 0
