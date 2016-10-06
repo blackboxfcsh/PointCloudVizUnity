@@ -11,6 +11,7 @@ public class PointCloud : MonoBehaviour {
 	int maxclouds = 0;
 	public int currentCloud = 0;
 	public bool playing;
+	public string calibrationName = "";
 	Dictionary<int,List<Mesh>> meshes;
 	
 	// Use this for initialization
@@ -44,7 +45,8 @@ public class PointCloud : MonoBehaviour {
 		transform.localScale += new Vector3(-1.0F, 1, 1);
 		
 		setCloudToRender (first,true);
-		setInitialPositionIni ();
+		//setInitialPositionIni ();
+		CalibrateLopesGraç();
 		
 	}
 	
@@ -80,6 +82,34 @@ public class PointCloud : MonoBehaviour {
 		this.gameObject.transform.Rotate (rotation);
 		
 	}
+
+	private void CalibrateLopesGraç(){
+
+		FileStream fs = new FileStream (cameraFilePath, FileMode.Open);
+		StreamReader sr = new StreamReader (fs);
+		string delimiter = ";";
+		string line = "";
+		while((line = sr.ReadLine()) != null)
+		{
+			string[] lineSplited = line.Split (';');
+			if (lineSplited.Length == 8) {
+				string[] calibrationInfo = lineSplited [0].Split ('=');
+				if (calibrationInfo [1].Equals (calibrationName)) {
+					Vector3 position = new Vector3 (float.Parse(lineSplited[1]),float.Parse(lineSplited[2]),
+						float.Parse(lineSplited[3]));
+					Quaternion rotation = new Quaternion (float.Parse(lineSplited[4]),float.Parse(lineSplited[5]),
+						float.Parse(lineSplited[6]),float.Parse(lineSplited[7]));
+
+					this.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+					this.gameObject.transform.position =position;
+					this.gameObject.transform.rotation = rotation;
+				}
+			}
+		}
+	}
+
+
+
 	
 	
 	

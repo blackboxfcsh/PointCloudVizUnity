@@ -1,4 +1,7 @@
-﻿Shader "GUI/LitText" { 
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "GUI/LitText" { 
 Properties { 
    _MainTex ("Font Texture", 2D) = "white" {} 
    _Color ("Text Color", Color) = (1,1,1,1) 
@@ -41,8 +44,8 @@ SubShader {
          {
             vertexOutput output;
 
-            float4x4 modelMatrix = _Object2World;
-            float4x4 modelMatrixInverse = _World2Object; 
+            float4x4 modelMatrix = unity_ObjectToWorld;
+            float4x4 modelMatrixInverse = unity_WorldToObject; 
 
 			float normalDirection = normalize(mul(input.normal, modelMatrixInverse));
 			float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
